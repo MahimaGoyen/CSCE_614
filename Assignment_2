@@ -1,0 +1,62 @@
+CSCE 614 Fall 2022, Homework 2
+Due before the beginning of class, September 29, 2022.
+
+ 
+
+From The Book
+From the Chapter 1 Case Studies and Exercises, do the following:
+
+1.7
+1.9
+1.12
+1.14
+1.15
+Work these problems yourself; do not help others or accept help from any other source but your professor. Write up your solutions with a word processor; hand-written assignments will not be graded. Turn in your assignment through Canvas.
+
+Coding
+Write a simple cache simulator. Write your program in C or C++ and call it cache.c (for C) or cache.cc (for C++). The program should work by the following specifications:
+
+Command-Line Parameters
+There should be four command line parameters in this order:
+
+nk: the capacity of the cache in kilobytes (an int)
+assoc: the associativity of the cache (an int)
+blocksize: the size of a single cache block in bytes (an int)
+repl: the replacement policy (a char); 'l' means LRU, 'r' means random.
+Input
+Read traces from the standard input. Each line on the standard input will be a lowercase 'r' (for read) or 'w' (for write) followed by a space and then a 64-bit hexadecimal number giving the address of the memory access. For example, a snippet of a trace file looks like this:
+
+r 56ecd8
+r 47f639
+r 7ff0001ff
+w 47f63e
+r 4817ef
+r 7d5ab8
+Output
+The output should be a single line of six numbers separated by spaces. These six numbers are:
+
+The total number of misses,
+The percentage of misses (i.e. total misses divided by total accesses),
+The total number of read misses,
+The percentage of read misses (i.e. total read misses divided by total read accesses),
+The total number of write misses,
+The percentage of write misses (i.e. total write misses divided by total write accesses).
+What to turn in
+Turn in your assignment as a PDF and a C++ file and upload both of them in a zip file. Your name should appear in comments in the code as we will be grading the files separately from the other elements of the homework. Make your program a single file.
+
+For a successful assignment
+Make sure your code does not print any extraneous information; assume it will be graded by a program expecting input in exactly the format specified. (Of course for debugging you might put in extra print statements but comment them out or get rid of them before turning the program in.)
+Your code should use good software engineering practices such as documenting with comments each function, variable, and control-flow statement giving their purpose in the context of the program, as well as using meaningful identifier names. Minimize use of global variables.
+We will test your code on 28 traces from SPEC CPU 2006Links to an external site.. Use those traces to test your program.
+Note that you are working with 64 bit addresses. These do not fit into a C/C++ int. Thus, you should use long long int or better unsigned long long int to represent addresses.
+The number of sets is a function of the capacity, blocksize, and associativity. You can compute this in C/C++ easily.
+For the program to work correctly, you need to make sure that uninitialized (i.e. invalid) blocks do not match, and the LRU is implemented correctly.
+Your program should work with any capacity and associativity. Thus, it is not sufficient to model your cache as a large two-dimensional array; you will need to use memory allocation.
+The first few pages of Appendix B in your book tell you how a simple cache works. You need to know how to map an address to a set, how to find a block within a set (or find that it isn't there), and how to choose a replacement when you need to place a new block. You need to be able to distinguish an uninitialized block from a block that is in use.
+As an example, the following is output from the program:
+gzip -dc 429.mcf-184B.trace.txt.gz | ./cache 2048 64 64 l
+55752 5.575200% 55703 5.610155% 49 0.689752%
+That is, we decompress the mcf trace, pipe it through the program specifying a 2048 kilobyte cache with 64-way associativity and 64 bytes per block with LRU replacement, and we get a 5.5752% total miss rate. Although there are many ways to implement LRU, they will all result in exactly the same answer so if you get this answer, too, then you are on the right track.
+Write this code yourself. Do not receive assistance from anyone except for your professor. If you receive assistance, I will catch you and punish you. If I fail to catch you, you will punish yourself by not taking the opportunity to learn computer architecture and coding skills you will need for subsequent assignment.
+
+Late assignments will not be accepted.
